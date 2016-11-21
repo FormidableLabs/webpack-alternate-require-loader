@@ -12,4 +12,7 @@
 // This succeeds using an alternate require.
 var foo = require("./nested/require")("foo");
 
-console.log("Hello World! " + foo); // eslint-disable-line no-console
+// Now have to go down a directory from alternate require context.
+var bar = require("./nested/require")("../bar");
+
+console.log("Hello World! " + [foo, bar].join(", ")); // eslint-disable-line no-console

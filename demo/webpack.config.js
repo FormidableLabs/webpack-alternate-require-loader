@@ -4,7 +4,8 @@
  * Webpack configuration
  */
 var path = require("path");
-var AlternateRequireLoader = require.resolve("../lib/index");
+var alternateRequireLoader = require.resolve("../lib/index");
+var failPlugin = require("webpack-fail-plugin");
 
 module.exports = {
   cache: true,
@@ -20,11 +21,14 @@ module.exports = {
       {
         test: /\.js$/,
         include: __dirname,
-        loader: AlternateRequireLoader,
+        loader: alternateRequireLoader,
         query: JSON.stringify({
           "./nested/require": require.resolve("./nested/require")
         })
       }
     ]
-  }
+  },
+  plugins: [
+    failPlugin
+  ]
 };

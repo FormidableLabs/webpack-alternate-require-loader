@@ -1,6 +1,6 @@
 {
   "name": "webpack-alternate-require-loader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Webpack alternate require loader",
   "main": "lib/index.js",
   "dependencies": {
@@ -12,7 +12,8 @@
     "eslint-plugin-filenames": "^1.1.0",
     "eslint-plugin-import": "^1.16.0",
     "rimraf": "^2.5.4",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "webpack-fail-plugin": "^1.0.5"
   },
   "repository": {
     "type": "git",
