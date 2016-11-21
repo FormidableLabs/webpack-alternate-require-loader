@@ -19,7 +19,9 @@
     "url": "https://github.com/FormidableLabs/webpack-alternate-require-loader"
   },
   "keywords": [
-    "webpack"
+    "webpack",
+    "builder",
+    "require"
   ],
   "author": "Ryan Roemer <ryan.roemer@formidablelabs.com>",
   "license": "MIT",

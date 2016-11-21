@@ -6,14 +6,6 @@ Webpack Alternate Require Loader
 This loader allows webpack to approximate arcane Node.js `require` semantics for
 advanced use cases when a normal `require` doesn't suffice
 
-## Installation
-
-The loader is available via [npm](https://www.npmjs.com/package/webpack-alternate-require-loader):
-
-```
-$ npm install --save webpack-alternate-require-loader
-```
-
 ## Background
 
 *The Problem*
@@ -80,14 +72,60 @@ The above pattern works just fine for Node.js. Unfortunately, this non-standard
 _Enter this loader_, which allows a bridge for webpack builds to also use the
 module pattern / other non-standard requires.
 
+## Installation
+
+The loader is available via [npm](https://www.npmjs.com/package/webpack-alternate-require-loader):
+
+```sh
+$ npm install --save webpack-alternate-require-loader
+```
+
 ## Usage
 
-This plugin allows the import of a _different_ `require` compatible loader for
-non-standard require scenarios, such as using the [module pattern][]
+The plugin takes a configuration object of a re-exported module path to search
+for in code and then a resolved path to that same code on disk like:
 
-*TODO: REST OF SECTION*
+```js
+{
+  "CODE_TO_MATCH": require.resolve("REEXPORTED_CODE_PATH")
+  "./outside-of-resolution-path/require": require.resolve("./outside-of-resolution-path/require")
+}
+```
+
+It will then effectively transform something like:
+
+```js
+var foo = require("CODE_TO_MATCH")("foo");
+var foo = require("./outside-of-resolution-path/require")("foo");
+```
+
+to:
+
+```js
+var foo = require("/RESOLVED/PATH/TO/foo");
+```
+
+This effectively simulates what Node.js would do at execution time to the code.
 
 ## Examples
+
+A basic configuration:
+
+```js
+module.exports = {
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: "webpack-alternate-require-loader",
+        query: JSON.stringify({
+          "./outside-of-resolution-path/require": require.resolve("./outside-of-resolution-path/require")
+        })
+      }
+    ]
+  }
+};
+```
 
 Additional examples are provided in:
 [`demo/webpack.config.js`](demo/webpack.config.js). If you have a clone of this
@@ -99,9 +137,20 @@ $ npm run build-demo-wp
 
 and see the results in the [`demo`](demo) directory.
 
-### Basic
+## Notes
 
-*TODO: REST OF SECTION*
+**Why can't I just prepend the non-standard `node_modules` path in code?**
+
+See the [module pattern][] discussion page. Basically, with top-level
+dependencies you _can_. But with nested dependencies and modern `npm` / `yarn`
+the real depended on code can be located anywhere in the tree. And you need
+the `node_modules` search path to be different than normal.
+
+**You're using regexes? Yuck!**
+
+Indeed. But that's basically how webpack / some loaders roll. We stick to an
+easy pattern and avoid the cost of a full babel install + parsing. But, we may
+be open to _real_ code parsing in the future.
 
 ## Contributions
 
