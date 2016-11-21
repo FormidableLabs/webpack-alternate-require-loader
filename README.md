@@ -139,6 +139,26 @@ and see the results in the [`demo`](demo) directory.
 
 ## Notes
 
+**Do I have to use _exactly_ the module / require pattern above?**
+
+Yes. Although Node.js can figure out:
+
+```js
+var altRequire = require("./outside-of-resolution-path/require");
+var foo = altRequire("foo");
+```
+
+This plugin currently cannot because it is naive and uses regexes. You _must_
+follow the form:
+
+```js
+var foo = require("./outside-of-resolution-path/require")("foo");
+```
+
+Fortunately, if you are using
+[`babel-plugin-replace-require`](https://github.com/FormidableLabs/babel-plugin-replace-require),
+you can easily produce `require` expressions that work with this plugin.
+
 **Why can't I just prepend the non-standard `node_modules` path in code?**
 
 See the [module pattern][] discussion page. Basically, with top-level
