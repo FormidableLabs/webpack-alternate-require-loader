@@ -44,7 +44,7 @@ Node.js `require` resolution path:
 ```js
 // src/outside-of-resolution-path/require.js
 // Re-export the `require` to start resolution from `src/outside-of-resolution-path/node_modules`
-module.export = require;
+module.exports = require;
 ```
 
 And switched our importing code to:
