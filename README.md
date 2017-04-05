@@ -162,9 +162,9 @@ you can easily produce `require` expressions that work with this plugin.
 **What if I'm on Windows**
 
 If you're on Windows, there are some gotchas to know about, specifically, that
-`require.resolve` returns `\\` (aka `os.EOL`) delimited strings, which may need
-further finessing in your webpack config for use in this plugin. Specifically,
-a snippet like:
+`require.resolve` returns `\\` (aka `path.sep`) delimited strings, which may
+need further finessing in your webpack config for use in this plugin.
+Specifically, a snippet like:
 
 ```js
 query: JSON.stringify({
@@ -176,13 +176,13 @@ may need to be:
 
 ```js
 // up top
-var os = require("os");
+var path = require("path");
 
 // in webpack config object
 query: JSON.stringify({
   "./outside-of-resolution-path/require": require
     .resolve("./outside-of-resolution-path/require")
-    .replace(os.EOL, "/")
+    .replace(path.sep, "/")
 })
 ```
 

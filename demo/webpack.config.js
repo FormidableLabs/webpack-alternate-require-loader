@@ -3,7 +3,6 @@
 /**
  * Webpack configuration
  */
-var os = require("os");
 var path = require("path");
 var alternateRequireLoader = require.resolve("../lib/index");
 var failPlugin = require("webpack-fail-plugin");
@@ -26,7 +25,7 @@ module.exports = {
         query: JSON.stringify({
           "./nested/require": require
             .resolve("./nested/require")
-            .replace(os.EOL, "/") // Normalize for resolve paths on Windows.
+            .replace(path.sep, "/") // Normalize for resolve paths on Windows.
         })
       }
     ]
