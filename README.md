@@ -159,6 +159,33 @@ Fortunately, if you are using
 [`babel-plugin-replace-require`](https://github.com/FormidableLabs/babel-plugin-replace-require),
 you can easily produce `require` expressions that work with this plugin.
 
+**What if I'm on Windows**
+
+If you're on Windows, there are some gotchas to know about, specifically, that
+`require.resolve` returns `\\` (aka `os.EOL`) delimited strings, which may need
+further finessing in your webpack config for use in this plugin. Specifically,
+a snippet like:
+
+```js
+query: JSON.stringify({
+  "./outside-of-resolution-path/require": require.resolve("./outside-of-resolution-path/require")
+})
+```
+
+may need to be:
+
+```js
+// up top
+var os = require("os");
+
+// in webpack config object
+query: JSON.stringify({
+  "./outside-of-resolution-path/require": require
+    .resolve("./outside-of-resolution-path/require")
+    .replace(os.EOL, "/")
+})
+```
+
 **Why can't I just prepend the non-standard `node_modules` path in code?**
 
 See the [module pattern][] discussion page. Basically, with top-level
