@@ -159,7 +159,7 @@ Fortunately, if you are using
 [`babel-plugin-replace-require`](https://github.com/FormidableLabs/babel-plugin-replace-require),
 you can easily produce `require` expressions that work with this plugin.
 
-**What if I'm on Windows**
+**What if I'm on Windows?**
 
 If you're on Windows, there are some gotchas to know about, specifically, that
 `require.resolve` returns `\\` (aka `path.sep`) delimited strings, which may
