@@ -23,7 +23,9 @@ module.exports = {
         include: __dirname,
         loader: alternateRequireLoader,
         query: JSON.stringify({
-          "./nested/require": require.resolve("./nested/require")
+          "./nested/require": require
+            .resolve("./nested/require")
+            .replace(path.sep, "/") // Normalize for resolve paths on Windows.
         })
       }
     ]
